@@ -66,8 +66,7 @@
   align-items: center;
   justify-content: center;
   gap: 14px;
-  /*background: rgba(77, 15, 123, 0.52);*/
-  background: red;
+  background: rgba(77, 15, 123, 0.52);
   backdrop-filter: blur(2px);
   z-index: 5000;
   opacity: 1;
