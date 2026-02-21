@@ -1,0 +1,106 @@
+﻿<section class="users-page">
+  <% const list = Array.isArray(users) ? users : []; %>
+  <% const total = list.length; %>
+  <% const actifs = list.filter((u) => Number(u.is_active) === 1).length; %>
+  <% const inactifs = total - actifs; %>
+
+  <div class="users-head">
+    <h1>Utilisateurs</h1>
+    <p>Comptes avec role <strong>user</strong></p>
+  </div>
+
+  <div class="users-stats">
+    <div class="u-pill"><strong><%= total %></strong><span>Total</span></div>
+    <div class="u-pill is-ok"><strong><%= actifs %></strong><span>Actifs</span></div>
+    <div class="u-pill is-off"><strong><%= inactifs %></strong><span>Inactifs</span></div>
+  </div>
+
+  <% if (!list.length) { %>
+    <div class="users-empty">
+      <i class="bx bx-user"></i>
+      <h2>Aucun utilisateur</h2>
+      <p>Aucun compte utilisateur pour le moment.</p>
+    </div>
+  <% } else { %>
+    <div class="users-table-wrap">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>Nom</th>
+            <th>Email</th>
+            <th>Telephone</th>
+            <th>Localisation</th>
+            <th>Statut</th>
+            <th>Inscription</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% list.forEach((u) => { %>
+            <tr>
+              <td>
+                <div class="u-main"><%= `${u.first_name || ''} ${u.last_name || ''}`.trim() || 'Utilisateur' %></div>
+                <div class="u-sub id">#<%= String(u.id).slice(0, 8).toUpperCase() %></div>
+              </td>
+              <td>
+                <div class="u-main"><%= u.email || '-' %></div>
+              </td>
+              <td>
+                <div class="u-main"><%= u.phone || '-' %></div>
+              </td>
+              <td>
+                <div class="u-main"><%= [u.country, u.city].filter(Boolean).join(' / ') || '-' %></div>
+              </td>
+              <td>
+                <% if (Number(u.is_active) === 1) { %>
+                  <span class="status ok">actif</span>
+                <% } else { %>
+                  <span class="status off">inactif</span>
+                <% } %>
+              </td>
+              <td>
+                <div class="u-main"><%= new Date(u.created_at).toLocaleDateString('fr-FR') %></div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="users-cards">
+      <% list.forEach((u) => { %>
+        <article class="u-card">
+          <div class="u-card-top">
+            <div>
+              <h3><%= `${u.first_name || ''} ${u.last_name || ''}`.trim() || 'Utilisateur' %></h3>
+              <p class="u-sub">#<%= String(u.id).slice(0, 8).toUpperCase() %></p>
+            </div>
+            <% if (Number(u.is_active) === 1) { %>
+              <span class="status ok">actif</span>
+            <% } else { %>
+              <span class="status off">inactif</span>
+            <% } %>
+          </div>
+
+          <div class="u-grid">
+            <div>
+              <span>Email</span>
+              <strong><%= u.email || '-' %></strong>
+            </div>
+            <div>
+              <span>Telephone</span>
+              <strong><%= u.phone || '-' %></strong>
+            </div>
+            <div>
+              <span>Localisation</span>
+              <strong><%= [u.country, u.city].filter(Boolean).join(' / ') || '-' %></strong>
+            </div>
+            <div>
+              <span>Inscription</span>
+              <strong><%= new Date(u.created_at).toLocaleDateString('fr-FR') %></strong>
+            </div>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>

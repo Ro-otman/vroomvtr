@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/images/favicon-bx-car-white.svg?v=4" />
+    <link rel="shortcut icon" href="/images/favicon-bx-car-white.svg?v=4" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet">
+
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    />
+
+    <title><%= title || "Mon App" %></title>
+
+    <% const metaSafe = (typeof meta !== "undefined" && meta) ? meta : {}; %>
+    <% const stylesSafe = (typeof styles !== "undefined" && styles) ? styles : []; %>
+
+    <% if (metaSafe.description) { %>
+    <meta name="description" content="<%= metaSafe.description %>" />
+    <% } %>
+
+    <% if (metaSafe.robots) { %>
+    <meta name="robots" content="<%= metaSafe.robots %>" />
+    <% } %>
+
+    <% if (metaSafe.canonical) { %>
+    <link rel="canonical" href="<%= metaSafe.canonical %>" />
+    <% } %>
+
+    <% if (metaSafe.og && metaSafe.og.title) { %>
+    <meta property="og:title" content="<%= metaSafe.og.title %>" />
+    <% } %>
+    <% if (metaSafe.og && metaSafe.og.description) { %>
+    <meta property="og:description" content="<%= metaSafe.og.description %>" />
+    <% } %>
+    <% if (metaSafe.og && metaSafe.og.url) { %>
+    <meta property="og:url" content="<%= metaSafe.og.url %>" />
+    <% } %>
+    <% if (metaSafe.og && metaSafe.og.type) { %>
+    <meta property="og:type" content="<%= metaSafe.og.type %>" />
+    <% } %>
+    <% if (metaSafe.og && metaSafe.og.siteName) { %>
+    <meta property="og:site_name" content="<%= metaSafe.og.siteName %>" />
+    <% } %>
+    <% if (metaSafe.og && metaSafe.og.image) { %>
+    <meta property="og:image" content="<%= metaSafe.og.image %>" />
+    <% } %>
+
+    <% if (metaSafe.twitter && metaSafe.twitter.card) { %>
+    <meta name="twitter:card" content="<%= metaSafe.twitter.card %>" />
+    <% } %>
+    <% if (metaSafe.twitter && metaSafe.twitter.title) { %>
+    <meta name="twitter:title" content="<%= metaSafe.twitter.title %>" />
+    <% } %>
+    <% if (metaSafe.twitter && metaSafe.twitter.description) { %>
+    <meta name="twitter:description" content="<%= metaSafe.twitter.description %>" />
+    <% } %>
+    <% if (metaSafe.twitter && metaSafe.twitter.image) { %>
+    <meta name="twitter:image" content="<%= metaSafe.twitter.image %>" />
+    <% } %>
+
+    <% if (Array.isArray(stylesSafe)) { %>
+      <% stylesSafe.forEach((href) => { %>
+      <link rel="stylesheet" href="<%= href %>" />
+      <% }) %>
+    <% } %>
+  </head>
+  <body>
+    <div id="site-loader" class="site-loader" aria-live="polite" aria-label="Chargement">
+      <div class="loader-core">
+        <div class="loader-ring"></div>
+        <i class="bx bxs-car-garage loader-car" aria-hidden="true"></i>
+      </div>
+      <p class="loader-text">Chargement en cours...</p>
+    </div>
+
+    <%- include('../partials/header') %>
+
+    <main><%- body %></main>
+
+    <% const noFooterSafe = typeof noFooter !== "undefined" && noFooter; %>
+    <% if (!noFooterSafe) { %>
+      <%- include('../partials/footer') %>
+    <% } %>
+    <% const hideFabSafe = typeof noFab !== "undefined" && noFab; %>
+    <% const unreadSafe = typeof unreadCount !== "undefined" ? unreadCount : 0; %>
+    <% if (user && !hideFabSafe) { %>
+      <button class="msg-fab" type="button" aria-label="Messages">
+        <i class="bx bx-message-dots"></i>
+        <span class="msg-badge" <%= unreadSafe > 0 ? '' : 'hidden' %>><%= unreadSafe %></span>
+      </button>
+    <% } %>
+    <% if (user && !hideFabSafe) { %>
+      <script src="/socket.io/socket.io.js"></script>
+    <% } %>
+    <script src="/js/loader.js"></script>
+    <script src="/js/script.js"></script>
+  </body>
+</html>
+

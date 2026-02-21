@@ -1,0 +1,94 @@
+<header>
+  <div class="container nav">
+    <div class="logo">
+      <span>VroomVTR</span>
+    </div>
+    <div class="droit">
+      <form class="rech" method="get" action="/">
+        <input
+          type="text"
+          name="q"
+          placeholder="Rechercher sur VroomVTR"
+          value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>"
+        />
+        <button class="search-btn" type="submit" aria-label="Rechercher">
+          <i class="bx bx-search"></i>
+        </button>
+      </form>
+      <nav>
+        <ul>
+          <li class="search-only">
+            <button
+              class="nav-btn search-toggle"
+              type="button"
+              aria-label="Rechercher"
+            >
+              <i class="bx bx-search"></i>
+            </button>
+          </li>
+          <li>
+            <a href="/"><i class="bx bx-home"></i>Accueil</a>
+          </li>
+          <li>
+            <a href="/about"><i class="bx bx-info-circle"></i>À propos</a>
+          </li>
+          <li>
+            <a href="/faq"><i class="bx bx-help-circle"></i> FAQ</a>
+          </li>
+          <li>
+            <a href="/favoris"><i class="bx bx-heart"></i> Favoris</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+    <% if (user) { %>
+    <div class="user-menu">
+      <button class="user-toggle" type="button" aria-expanded="false">
+        <i class="bx bx-user"></i>
+        <span class="con-text">
+          <%= user.first_name ? user.first_name : user.email %>
+        </span>
+        <i class="bx bx-chevron-down"></i>
+      </button>
+      <div class="user-dropdown" aria-hidden="true">
+        <div class="user-info">
+          <strong><%= user.first_name || "Utilisateur" %></strong>
+          <small><%= user.email %></small>
+        </div>
+        <% if (currentOrder) { %>
+        <div class="user-orders">
+          <p class="orders-title">Commande en cours</p>
+          <div class="order-card">
+            <div>
+              <span class="order-label">
+                <%= currentOrder.brand %> <%= currentOrder.model %>
+              </span>
+              <strong class="order-amount">
+                <%= Number(currentOrder.amount).toLocaleString("fr-FR") %>
+                <%= currentOrder.currency || "EUR" %>
+              </strong>
+            </div>
+            <div class="order-actions">
+              <a class="order-btn danger" href="/orders/<%= currentOrder.id %>/refund">Rembourse</a>
+              <form action="/orders/<%= currentOrder.id %>/confirm" method="post">
+                <button type="submit" class="order-btn success">Confirmer</button>
+              </form>
+            </div>
+          </div>
+        </div>
+        <% } %>
+        <a class="user-link" href="/profil">Mon profil</a>
+        <form action="/auth/logout" method="post">
+          <button type="submit" class="logout-btn">Déconnexion</button>
+        </form>
+      </div>
+    </div>
+    <% } else { %>
+    <a class="user-toggle" href="/login" aria-label="Connexion">
+      <i class="bx bx-user"></i>
+      <span class="con-text">Connexion</span>
+    </a>
+    <% } %>
+  </div>
+  <div class="search-overlay"></div>
+</header>

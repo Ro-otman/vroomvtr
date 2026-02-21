@@ -1,0 +1,103 @@
+<section class="messages-page messages-fullscreen" data-hide-fab="true">
+  <div class="messages-card">
+    <div class="messages-list">
+      <div class="messages-header">
+        <h1>Messages</h1>
+        <p>Vos discussions avec les vendeurs</p>
+      </div>
+      <ul class="conversation-list">
+        <% if (conversations && conversations.length) { %>
+          <% conversations.forEach((c) => { %>
+            <li
+              class="conversation-item <%= c.id === activeConversationId ? 'is-active' : '' %>"
+              data-conversation-id="<%= c.id %>"
+              data-car-id="<%= c.car_id %>"
+              data-vendor-id="<%= c.vendor_id %>"
+              data-vendor-avatar="<%= c.vendor_avatar || '' %>"
+              data-unread="<%= c.unread_count || 0 %>"
+            >
+              <div class="conversation-avatar">
+                <% if (c.car_image) { %>
+                  <img src="<%= c.car_image %>" alt="Photo <%= (c.brand || '') + ' ' + (c.model || '') %>" />
+                <% } else { %>
+                  <%= (c.vendor_name || 'V')[0].toUpperCase() %>
+                <% } %>
+              </div>
+              <div>
+                <strong>
+                  <%= c.vendor_name || 'Vendeur' %>
+                  <i class="bx bxs-badge-check verified"></i>
+                </strong>
+                <span class="conversation-sub"><%= (c.brand || '') + ' ' + (c.model || '') %></span>
+                <div class="last-row">
+                  <span class="last-message"><%= c.last_message || '...' %></span>
+                  <span class="unread-badge" <%= c.unread_count ? '' : 'hidden' %> aria-live="polite"><%= c.unread_count || 0 %></span>
+                </div>
+              </div>
+            </li>
+          <% }) %>
+        <% } else { %>
+          <li class="conversation-item empty">
+            <div class="conversation-avatar">--</div>
+            <div>
+              <strong>Aucune conversation</strong>
+              <span>Vos messages apparaîtront ici.</span>
+            </div>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+
+    <div class="messages-chat">
+      <div class="chat-header">
+        <button class="chat-back" type="button" aria-label="Retour">
+          <i class="bx bx-chevron-left"></i>
+        </button>
+        <div class="chat-user">
+          <div class="conversation-avatar">
+            <% if (conversations && conversations[0] && conversations[0].vendor_avatar) { %>
+              <img src="<%= conversations[0].vendor_avatar %>" alt="Avatar <%= conversations[0].vendor_name || 'Vendeur' %>" />
+            <% } else { %>
+              <%= conversations && conversations[0] ? (conversations[0].vendor_name || 'V')[0].toUpperCase() : '--' %>
+            <% } %>
+          </div>
+          <div>
+            <strong>
+              <%= conversations && conversations[0] ? (conversations[0].vendor_name || 'Vendeur') : 'Aucun vendeur' %>
+              <i class="bx bxs-badge-check verified"></i>
+            </strong>
+            <span class="conversation-sub">
+              <%= conversations && conversations[0] ? ((conversations[0].brand || '') + ' ' + (conversations[0].model || '')) : '' %>
+            </span>
+          </div>
+        </div>
+        <div class="chat-car-preview">
+          <% if (conversations && conversations[0] && conversations[0].car_image) { %>
+            <img src="<%= conversations[0].car_image %>" alt="Photo véhicule" />
+          <% } %>
+        </div>
+      </div>
+      <div
+        class="chat-body"
+        data-conversation-id="<%= activeConversationId %>"
+        data-car-id="<%= activeCarId %>"
+        data-vendor-id="<%= activeVendorId %>"
+      >
+        <% if (messages && messages.length) { %>
+          <% messages.forEach((m) => { %>
+            <div class="chat-msg <%= m.sender === 'user' ? 'to' : 'from' %>"><%= m.content %></div>
+          <% }) %>
+        <% } else { %>
+          <div class="chat-msg from">Aucun message pour le moment.</div>
+        <% } %>
+      </div>
+      <form class="chat-input" data-car-id="<%= activeCarId %>" data-vendor-id="<%= activeVendorId %>">
+        <input type="text" placeholder="Écrire un message..." />
+        <button type="submit"><i class="bx bx-send"></i></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/user-messages.js"></script>

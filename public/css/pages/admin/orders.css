@@ -1,0 +1,308 @@
+﻿.orders-page {
+  padding: 8px 0;
+  width: 98%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  overflow-x: hidden;
+}
+
+.orders-stats {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid rgba(128, 0, 128, 0.14);
+}
+
+.stat-pill strong {
+  color: #2a1438;
+}
+
+.stat-pill span {
+  color: #6a5c73;
+  font-size: 0.85rem;
+}
+
+.stat-pill.is-pending {
+  border-color: rgba(242, 153, 74, 0.5);
+  background: #fff6e9;
+}
+
+.stat-pill.is-confirmed {
+  border-color: rgba(38, 201, 120, 0.45);
+  background: #edfff4;
+}
+
+.orders-empty {
+  background: #fff;
+  border: 1px solid rgba(128, 0, 128, 0.12);
+  border-radius: 16px;
+  padding: 36px 18px;
+  text-align: center;
+  width: min(100%, 1240px);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.orders-empty i {
+  font-size: 2.2rem;
+  color: purple;
+}
+
+.orders-empty h2 {
+  margin: 8px 0 4px;
+}
+
+.orders-empty p {
+  margin: 0;
+  color: #666;
+}
+
+.orders-table-wrap {
+  background: #fff;
+  border: 1px solid rgba(128, 0, 128, 0.12);
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(27, 16, 36, 0.06);
+  overflow: auto;
+  width: min(100%, 1240px);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.orders-table-meta {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(128, 0, 128, 0.12);
+  background: #fcfbfe;
+}
+
+.orders-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 1080px;
+}
+
+.orders-table thead th {
+  text-align: left;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6c5e75;
+  padding: 13px 14px;
+  background: #faf7fc;
+  border-bottom: 1px solid rgba(128, 0, 128, 0.12);
+}
+
+.orders-table tbody td {
+  vertical-align: top;
+  padding: 13px 14px;
+  border-bottom: 1px solid #f1ebf6;
+}
+
+.orders-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.cell-primary {
+  color: #232028;
+  font-weight: 700;
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+
+.cell-sub {
+  margin-top: 3px;
+  color: #6d6574;
+  font-size: 0.82rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.vehicle-name {
+  max-width: 190px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.amount {
+  color: purple;
+}
+
+.status {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: lowercase;
+  margin-top: 6px;
+}
+
+.status.pending {
+  background: #fff3e2;
+  color: #9a5d00;
+}
+
+.status.confirmed {
+  background: #e9fff1;
+  color: #0f8044;
+}
+
+.status.cancelled {
+  background: #ffeef0;
+  color: #9f1d3a;
+}
+
+.status.completed {
+  background: #ececff;
+  color: #3434a8;
+}
+
+.status.payment.pending {
+  background: #fff3e2;
+  color: #9a5d00;
+}
+
+.status.payment.paid {
+  background: #e9fff1;
+  color: #0f8044;
+}
+
+.status.payment.failed {
+  background: #ffeef0;
+  color: #9f1d3a;
+}
+
+.status.payment.refunded {
+  background: #efecff;
+  color: #5746c7;
+}
+
+.orders-cards {
+  display: none;
+  width: min(100%, 1240px);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.orders-mobile-meta {
+  display: none;
+  width: min(100%, 1240px);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+@media (max-width: 960px) {
+  .orders-table-wrap {
+    display: none !important;
+  }
+
+  .orders-mobile-meta {
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .orders-cards {
+    display: grid;
+    gap: 12px;
+  }
+
+  .order-card {
+    background: #fff;
+    border: 1px solid rgba(128, 0, 128, 0.12);
+    border-radius: 14px;
+    padding: 12px;
+    box-shadow: 0 5px 16px rgba(31, 16, 45, 0.06);
+    box-sizing: border-box;
+  }
+
+  .order-card-head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .order-id {
+    margin: 0;
+    color: #231933;
+    font-weight: 800;
+  }
+
+  .order-date {
+    margin: 2px 0 0;
+    color: #6f6776;
+    font-size: 0.8rem;
+  }
+
+  .order-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 10px;
+  }
+
+  .order-grid > div {
+    min-width: 0;
+  }
+
+  .order-grid .k {
+    display: block;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: #786d83;
+    margin-bottom: 2px;
+  }
+
+  .order-grid strong {
+    display: block;
+    color: #221f28;
+    font-size: 0.92rem;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+  }
+
+  .order-grid p {
+    margin: 2px 0 0;
+    color: #70667a;
+    font-size: 0.8rem;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  .order-grid .vehicle-name {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .orders-page {
+    padding: 0 0 12px;
+  }
+
+  .orders-mobile-meta .orders-stats {
+    gap: 6px;
+  }
+
+  .orders-mobile-meta .stat-pill {
+    padding: 7px 10px;
+  }
+
+  .order-grid {
+    grid-template-columns: 1fr;
+  }
+}

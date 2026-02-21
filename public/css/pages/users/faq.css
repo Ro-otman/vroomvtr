@@ -1,0 +1,133 @@
+.faq-hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 120px 20px 40px;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 24px;
+  background: radial-gradient(circle at top left, rgba(128, 0, 128, 0.12), transparent 40%),
+    radial-gradient(circle at bottom right, rgba(128, 0, 128, 0.08), transparent 40%);
+  border-radius: 20px;
+}
+
+.faq-hero .eyebrow {
+  color: purple;
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.4px;
+}
+
+.faq-hero h1 {
+  font-size: 2.2rem;
+  margin: 10px 0 12px;
+}
+
+.faq-hero p {
+  color: #555;
+  line-height: 1.6;
+}
+
+.faq-hero-card {
+  background: #fff;
+  border: 1px solid rgba(128, 0, 128, 0.15);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+}
+
+.faq-hero-card .btn-primary {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 10px 16px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  background: purple;
+  color: #fff;
+  border: 1px solid purple;
+}
+
+.faq-content {
+  max-width: 1200px;
+  margin: 0 auto 60px;
+  padding: 0 20px;
+}
+
+.faq-list {
+  width: 100%;
+  max-width: 760px;
+  margin: 0;
+}
+
+.faq-categories {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.cat {
+  background: rgba(128, 0, 128, 0.12);
+  color: purple;
+  border: 1px solid rgba(128, 0, 128, 0.2);
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.cat.active {
+  background: purple;
+  color: #fff;
+  border-color: purple;
+}
+
+.faq-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.faq-item {
+  background: #fff;
+  border-radius: 14px;
+  border: 1px solid rgba(128, 0, 128, 0.12);
+  overflow: hidden;
+}
+
+.faq-question {
+  width: 100%;
+  text-align: left;
+  background: transparent;
+  border: none;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.faq-answer {
+  padding: 0 16px 14px;
+  color: #555;
+  line-height: 1.6;
+  display: none;
+}
+
+.faq-item.open .faq-answer {
+  display: block;
+}
+
+.faq-item.open .faq-question i {
+  transform: rotate(180deg);
+}
+
+.faq-question i {
+  transition: transform 0.2s ease;
+}
+
+@media (max-width: 900px) {
+  .faq-hero {
+    grid-template-columns: 1fr;
+  }
+}

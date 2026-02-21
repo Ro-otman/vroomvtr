@@ -1,0 +1,53 @@
+<section class="admin-products-page">
+  <div class="products-header">
+    <h1>Produits</h1>
+    <a class="btn-add-car" href="/addcars">
+      <i class="bx bx-plus-circle"></i>
+      Ajouter une voiture
+    </a>
+  </div>
+
+  <% if (cars && cars.length) { %>
+    <div class="products-grid">
+      <% cars.forEach((car) => { %>
+        <article class="product-card">
+          <div class="product-media">
+            <img src="<%= car.main_image || '/images/ab1.webp' %>" alt="<%= car.brand %> <%= car.model %>" />
+          </div>
+          <div class="product-body">
+            <h2 title="<%= car.brand %> <%= car.model %>">
+              <%= car.brand %> <%= car.model %>
+            </h2>
+            <p class="product-meta">
+              <span><i class="bx bx-calendar"></i> <%= car.year || "-" %></span>
+              <span><i class="bx bx-gas-pump"></i> <%= car.fuel_type || "-" %></span>
+            </p>
+            <p class="product-meta">
+              <span><i class="bx bx-tachometer"></i> <%= car.mileage ? Number(car.mileage).toLocaleString("fr-FR") + " km" : "-" %></span>
+              <span><i class="bx bx-cog"></i> <%= car.transmission || "-" %></span>
+            </p>
+            <div class="product-bottom">
+              <strong class="product-price"><%= Number(car.price).toLocaleString("fr-FR") %> EUR</strong>
+            </div>
+            <div class="product-actions">
+              <a class="action-btn edit" href="/admin/addcars/<%= car.id %>/edit">
+                <i class="bx bx-edit"></i> Modifier
+              </a>
+              <form action="/admin/cars/<%= car.id %>/delete" method="post">
+                <button class="action-btn delete" type="submit">
+                  <i class="bx bx-trash"></i> Supprimer
+                </button>
+              </form>
+            </div>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  <% } else { %>
+    <div class="products-placeholder">
+      <i class="bx bx-car"></i>
+      <h2>Aucun produit</h2>
+      <p>Ajoute ta premiere voiture pour alimenter la marketplace.</p>
+    </div>
+  <% } %>
+</section>

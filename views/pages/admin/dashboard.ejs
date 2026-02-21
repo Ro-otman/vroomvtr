@@ -1,0 +1,198 @@
+﻿<section class="dashboard-page">
+  <% const d = dashboard || {}; %>
+  <% const activity = Array.isArray(recentActivity) ? recentActivity : []; %>
+
+  <div class="dash-hero">
+    <div class="dash-hero-text">
+      <p class="dash-kicker">Admin Control Center</p>
+      <h1>Tableau de bord</h1>
+      <p class="dash-sub">Suivi global de la plateforme VroomVTR en temps reel.</p>
+    </div>
+    <div class="dash-hero-chip">
+      <i class="bx bx-shield-quarter"></i>
+      <span>Root Admin</span>
+    </div>
+  </div>
+
+  <section class="kpi-grid" aria-label="Indicateurs principaux">
+    <article class="kpi-card">
+      <div class="kpi-top">
+        <span>Ventes du jour</span>
+        <i class="bx bx-line-chart"></i>
+      </div>
+      <p class="kpi-value" data-kpi="salesToday"><%= Number(d.salesToday || 0).toLocaleString("fr-FR") %></p>
+      <p class="kpi-meta up">Commandes confirmées aujourd'hui</p>
+    </article>
+
+    <article class="kpi-card">
+      <div class="kpi-top">
+        <span>Commandes en cours</span>
+        <i class="bx bx-package"></i>
+      </div>
+      <p class="kpi-value" data-kpi="pendingOrders"><%= Number(d.pendingOrders || 0).toLocaleString("fr-FR") %></p>
+      <p class="kpi-meta" data-kpi-meta="pendingOrders"><%= Number(d.pendingOrders || 0).toLocaleString("fr-FR") %> à confirmer</p>
+    </article>
+
+    <article class="kpi-card">
+      <div class="kpi-top">
+        <span>Messages non lus</span>
+        <i class="bx bx-message-rounded-dots"></i>
+      </div>
+      <p class="kpi-value" data-kpi="unreadMessages"><%= Number(d.unreadMessages || 0).toLocaleString("fr-FR") %></p>
+      <p class="kpi-meta warn">Nouveaux messages clients</p>
+    </article>
+
+    <article class="kpi-card">
+      <div class="kpi-top">
+        <span>Utilisateurs actifs</span>
+        <i class="bx bx-user-check"></i>
+      </div>
+      <p class="kpi-value" data-kpi="activeUsers"><%= Number(d.activeUsers || 0).toLocaleString("fr-FR") %></p>
+      <p class="kpi-meta up">Comptes users actifs</p>
+    </article>
+  </section>
+
+  <% const codes = Array.isArray(verificationCodes) ? verificationCodes : []; %>
+  <section class="panel verification-panel" aria-label="Codes de verification commandes">
+    <div class="panel-head">
+      <h2>Codes de verification (étapes 3, 4, 5)</h2>
+    </div>
+
+    <p id="dashboard-codes-empty" class="verification-empty <%= codes.length ? 'is-hidden' : '' %>">
+      Aucune commande en attente de verification.
+    </p>
+    <div id="dashboard-codes-list" class="verification-list <%= codes.length ? '' : 'is-hidden' %>">
+        <% codes.forEach((row) => { %>
+          <article
+            class="verification-item"
+            role="button"
+            tabindex="0"
+            data-order-short="<%= String(row.order_id || '').slice(0, 8).toUpperCase() %>"
+            data-user="<%= ((`${row.user_first_name || ''} ${row.user_last_name || ''}`.trim() || 'Utilisateur') + ' (' + (row.user_email || '-') + ')') %>"
+            data-car="<%= `${row.brand || ''} ${row.model || ''} ${row.year || ''}`.trim() %>"
+            data-code1="<%= row.code_step3 || '' %>"
+            data-code2="<%= row.code_step4 || '' %>"
+            data-code3="<%= row.code_step5 || '' %>"
+          >
+            <div class="verification-main">
+              <p class="verification-order">
+                #<%= String(row.order_id || "").slice(0, 8).toUpperCase() %>
+              </p>
+              <p class="verification-user">
+                <%= `${row.user_first_name || ""} ${row.user_last_name || ""}`.trim() || "Utilisateur" %>
+                (<%= row.user_email || "-" %>)
+              </p>
+              <p class="verification-car">
+                <%= `${row.brand || ""} ${row.model || ""} ${row.year || ""}`.trim() %>
+              </p>
+            </div>
+            <div class="verification-codes">
+              <span class="code-pill">#1 <strong><%= row.code_step3 %></strong></span>
+              <span class="code-pill">#2 <strong class="<%= row.code_step4 ? '' : 'is-pending' %>"><%= row.code_step4 || "En attente étape 3" %></strong></span>
+              <span class="code-pill">#3 <strong class="<%= row.code_step5 ? '' : 'is-pending' %>"><%= row.code_step5 || "En attente étape 4" %></strong></span>
+            </div>
+          </article>
+        <% }) %>
+    </div>
+  </section>
+
+  <section class="dash-grid">
+    <article class="panel panel-wide">
+      <div class="panel-head">
+        <h2>Activite recente</h2>
+        <a href="/admin/orders">Voir les commandes</a>
+      </div>
+      <ul class="timeline" id="dashboard-timeline">
+        <% if (!activity.length) { %>
+          <li>
+            <span class="dot"></span>
+            <div>
+              <p>Aucune activite recente</p>
+              <small>En attente d'evenements</small>
+            </div>
+          </li>
+        <% } else { %>
+          <% activity.forEach((item) => { %>
+            <li>
+              <span class="dot <%= item.tone || '' %>"></span>
+              <div>
+                <p><%= item.text %></p>
+                <small><%= item.time %></small>
+              </div>
+            </li>
+          <% }) %>
+        <% } %>
+      </ul>
+    </article>
+
+    <article class="panel">
+      <div class="panel-head">
+        <h2>Actions rapides</h2>
+      </div>
+      <div class="quick-actions">
+        <a href="/addcars" class="quick-btn">
+          <i class="bx bx-plus-circle"></i>
+          <span>Ajouter un véhicule</span>
+        </a>
+        <a href="/produit" class="quick-btn">
+          <i class="bx bx-edit-alt"></i>
+          <span>Gerer les produits</span>
+        </a>
+        <a href="/admin/messages" class="quick-btn">
+          <i class="bx bx-chat"></i>
+          <span>Voir les messages</span>
+        </a>
+        <a href="/admin/users" class="quick-btn">
+          <i class="bx bx-group"></i>
+          <span>Consulter les users</span>
+        </a>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-head">
+        <h2>Performance</h2>
+      </div>
+      <div class="progress-list">
+        <div class="progress-item">
+          <div class="row"><span>Taux de conversion</span><strong data-kpi="conversionRate"><%= d.conversionRate || 0 %>%</strong></div>
+          <div class="bar"><span data-kpi-bar="conversionRate" style="width: <%= d.conversionRate || 0 %>%"></span></div>
+        </div>
+        <div class="progress-item">
+          <div class="row"><span>Reponses support</span><strong data-kpi="supportRate"><%= d.supportRate || 0 %>%</strong></div>
+          <div class="bar"><span data-kpi-bar="supportRate" style="width: <%= d.supportRate || 0 %>%"></span></div>
+        </div>
+        <div class="progress-item">
+          <div class="row"><span>Disponibilite API</span><strong data-kpi="uptimeRate"><%= d.uptimeRate || 99.9 %>%</strong></div>
+          <div class="bar"><span data-kpi-bar="uptimeRate" style="width: <%= d.uptimeRate || 99.9 %>%"></span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="panel">
+      <div class="panel-head">
+        <h2>Systeme</h2>
+      </div>
+      <ul class="system-list">
+        <li><span>Serveur</span><strong class="ok">Operationnel</strong></li>
+        <li><span>Base de donnees</span><strong class="ok">Connectee</strong></li>
+        <li><span>Paiements</span><strong>Stable</strong></li>
+      </ul>
+    </article>
+  </section>
+</section>
+
+<div id="dashboard-code-modal" class="code-modal is-hidden" aria-hidden="true">
+  <div class="code-modal-backdrop" data-code-modal-close></div>
+  <div class="code-modal-card" role="dialog" aria-modal="true" aria-labelledby="code-modal-title">
+    <button type="button" class="code-modal-close" data-code-modal-close aria-label="Fermer">
+      <i class="bx bx-x"></i>
+    </button>
+    <h3 id="code-modal-title">Codes de verification</h3>
+    <p id="code-modal-subtitle" class="code-modal-subtitle"></p>
+    <div id="code-modal-steps" class="code-modal-steps"></div>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/admin-dashboard.js"></script>

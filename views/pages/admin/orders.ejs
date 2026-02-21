@@ -1,0 +1,128 @@
+﻿<section class="orders-page">
+  <% const list = Array.isArray(orders) ? orders : []; %>
+  <% const total = list.length; %>
+  <% const pending = list.filter((o) => o.status === 'pending').length; %>
+  <% const confirmed = list.filter((o) => o.status === 'confirmed').length; %>
+
+  <% if (!list.length) { %>
+    <div class="orders-empty">
+      <i class="bx bx-receipt"></i>
+      <h2>Aucune commande</h2>
+      <p>Les nouvelles commandes apparaitront ici.</p>
+    </div>
+  <% } else { %>
+    <div class="orders-table-wrap">
+      <div class="orders-table-meta">
+        <div class="orders-stats">
+          <div class="stat-pill"><strong><%= total %></strong><span>Total</span></div>
+          <div class="stat-pill is-pending"><strong><%= pending %></strong><span>En cours</span></div>
+          <div class="stat-pill is-confirmed"><strong><%= confirmed %></strong><span>Confirmees</span></div>
+        </div>
+      </div>
+      <table class="orders-table">
+        <thead>
+          <tr>
+            <th>Commande</th>
+            <th>Client</th>
+            <th>Véhicule</th>
+            <th>Vendeur</th>
+            <th>Paiement</th>
+            <th>Livraison</th>
+            <th>Etat</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% list.forEach((o) => { %>
+            <% const statusClass = `status ${o.status || 'pending'}`; %>
+            <% const paymentClass = `status payment ${o.payment_status || 'pending'}`; %>
+            <tr>
+              <td>
+                <div class="cell-primary">#<%= String(o.id).slice(0, 8).toUpperCase() %></div>
+                <div class="cell-sub"><%= new Date(o.created_at).toLocaleString('fr-FR') %></div>
+              </td>
+              <td>
+                <div class="cell-primary"><%= `${o.user_first_name || ''} ${o.user_last_name || ''}`.trim() || 'Client' %></div>
+                <div class="cell-sub"><%= o.user_email || '-' %></div>
+              </td>
+              <td>
+                <div class="cell-primary vehicle-name"><%= `${o.brand || ''} ${o.model || ''}`.trim() || '-' %></div>
+                <div class="cell-sub"><%= o.year || '-' %></div>
+              </td>
+              <td>
+                <div class="cell-primary"><%= o.vendor_name || '-' %></div>
+              </td>
+              <td>
+                <div class="cell-primary amount"><%= Number(o.amount || 0).toLocaleString('fr-FR') %> <%= o.currency || '€' %></div>
+                <div class="cell-sub"><%= (o.payment_method || '-').toUpperCase() %></div>
+                <span class="<%= paymentClass %>"><%= o.payment_status || 'pending' %></span>
+              </td>
+              <td>
+                <div class="cell-primary"><%= `${o.country || '-'} / ${o.city || '-'}` %></div>
+                <div class="cell-sub"><%= `${o.address || '-'} (${o.postal_code || '-'})` %></div>
+              </td>
+              <td>
+                <span class="<%= statusClass %>"><%= o.status || 'pending' %></span>
+                <div class="cell-sub"><%= new Date(o.updated_at || o.created_at).toLocaleDateString('fr-FR') %></div>
+              </td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="orders-mobile-meta">
+      <div class="orders-stats">
+        <div class="stat-pill"><strong><%= total %></strong><span>Total</span></div>
+        <div class="stat-pill is-pending"><strong><%= pending %></strong><span>En cours</span></div>
+        <div class="stat-pill is-confirmed"><strong><%= confirmed %></strong><span>Confirmees</span></div>
+      </div>
+    </div>
+
+    <div class="orders-cards">
+      <% list.forEach((o) => { %>
+        <% const statusClass = `status ${o.status || 'pending'}`; %>
+        <% const paymentClass = `status payment ${o.payment_status || 'pending'}`; %>
+        <article class="order-card">
+          <div class="order-card-head">
+            <div>
+              <p class="order-id">#<%= String(o.id).slice(0, 8).toUpperCase() %></p>
+              <p class="order-date"><%= new Date(o.created_at).toLocaleString('fr-FR') %></p>
+            </div>
+            <span class="<%= statusClass %>"><%= o.status || 'pending' %></span>
+          </div>
+
+          <div class="order-grid">
+            <div>
+              <span class="k">Client</span>
+              <strong><%= `${o.user_first_name || ''} ${o.user_last_name || ''}`.trim() || 'Client' %></strong>
+              <p><%= o.user_email || '-' %></p>
+            </div>
+            <div>
+              <span class="k">Véhicule</span>
+              <strong class="vehicle-name"><%= `${o.brand || ''} ${o.model || ''}`.trim() || '-' %></strong>
+              <p><%= o.year || '-' %></p>
+            </div>
+            <div>
+              <span class="k">Vendeur</span>
+              <strong><%= o.vendor_name || '-' %></strong>
+            </div>
+            <div>
+              <span class="k">Montant</span>
+              <strong class="amount"><%= Number(o.amount || 0).toLocaleString('fr-FR') %> <%= o.currency || 'EUR' %></strong>
+            </div>
+            <div>
+              <span class="k">Paiement</span>
+              <strong><%= (o.payment_method || '-').toUpperCase() %></strong>
+              <span class="<%= paymentClass %>"><%= o.payment_status || 'pending' %></span>
+            </div>
+            <div>
+              <span class="k">Adresse</span>
+              <strong><%= `${o.country || '-'} / ${o.city || '-'}` %></strong>
+              <p><%= `${o.address || '-'} (${o.postal_code || '-'})` %></p>
+            </div>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+  <% } %>
+</section>

@@ -1,0 +1,58 @@
+<section class="favorites-page">
+  <div class="favorites-header">
+    <div>
+      <h1>Favoris</h1>
+      <p>Retrouvez vos véhicules enregistrés.</p>
+    </div>
+    <a class="btn-outline" href="/">Retour à la marketplace</a>
+  </div>
+
+  <div class="cards">
+    <% if (favorites && favorites.length) { %>
+      <% favorites.forEach((car) => { %>
+        <article class="card">
+          <a class="card-link card-link--overlay" href="/details?id=<%= car.id %>" aria-label="Voir <%= car.brand %> <%= car.model %>"></a>
+          <div class="card-media">
+            <img src="<%= car.main_image || '/images/v1.jpg' %>" alt="<%= car.brand %> <%= car.model %>" />
+            <span class="badge">A la une</span>
+            <button class="fav is-active" type="button" aria-label="Retirer des favoris" data-car-id="<%= car.id %>">
+              <i class="bx bx-heart"></i>
+            </button>
+          </div>
+          <div class="card-body">
+            <h3><%= car.brand %> <%= car.model %> <%= car.year ? car.year : '' %></h3>
+            <div class="price-row-card">
+              <span class="price"><%= Number(car.price).toLocaleString("fr-FR") %> €</span>
+              <% if (car.vendor_pro) { %>
+                <span class="pro">Pro</span>
+              <% } %>
+            </div>
+            <div class="specs">
+              <div><span>Année</span><strong><%= car.year || '-' %></strong></div>
+              <div><span>Kilométrage</span><strong><%= car.mileage ? Number(car.mileage).toLocaleString("fr-FR") + ' km' : '-' %></strong></div>
+              <div><span>Énergie</span><strong><%= car.fuel_type || '-' %></strong></div>
+              <div><span>Boîte</span><strong><%= car.transmission || '-' %></strong></div>
+            </div>
+            <div class="seller-row">
+              <div class="seller-avatar">
+                <img src="<%= car.vendor_avatar || '/images/v1.jpg' %>" alt="Vendeur <%= car.vendor_name %>" />
+              </div>
+              <div>
+                <p class="seller">
+                  <%= car.vendor_name %> <i class="bx bxs-badge-check verified"></i>
+                </p>
+                <p class="seller-sub">Vendeur verifie</p>
+              </div>
+            </div>
+          </div>
+        </article>
+      <% }) %>
+    <% } else { %>
+      <div class="empty-state">
+        <h3>Pas de favoris</h3>
+        <p><%= message || "Vous n'avez pas encore ajouté de véhicule." %></p>
+        <a class="btn-outline" href="/">Retour à la marketplace</a>
+      </div>
+    <% } %>
+  </div>
+</section>

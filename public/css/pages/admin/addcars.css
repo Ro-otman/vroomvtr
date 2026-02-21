@@ -1,0 +1,133 @@
+.addcars-page {
+  min-height: calc(100vh - 40px);
+  display: grid;
+  place-items: center;
+  padding: 24px 0 96px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+.addcars-card {
+  width: 100%;
+  max-width: none;
+  background: #fff;
+  border-radius: 18px;
+  padding: 28px;
+  border: 1px solid rgba(128, 0, 128, 0.15);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.addcars-header .eyebrow {
+  color: purple;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.addcars-header h1 {
+  margin: 6px 0 8px;
+}
+
+.addcars-header p {
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.addcars-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-alert {
+  padding: 10px 12px;
+  border-radius: 10px;
+  font-size: 0.9rem;
+}
+
+.form-alert.error {
+  background: #fff4f4;
+  border: 1px solid #ffb3b3;
+  color: #b00020;
+}
+
+.form-alert.error ul {
+  margin-left: 18px;
+}
+
+.addcars-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+.addcars-form input,
+.addcars-form select,
+.addcars-form textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.addcars-form input:focus,
+.addcars-form select:focus,
+.addcars-form textarea:focus {
+  border-color: purple;
+  box-shadow: 0 0 0 3px rgba(128, 0, 128, 0.12);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.grid > label {
+  min-width: 0;
+}
+
+.btn-primary {
+  background: purple;
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+@media (max-width: 700px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .addcars-page {
+    place-items: start center;
+    padding: 12px 0 96px;
+  }
+
+  .addcars-card {
+    border-radius: 12px;
+    padding: 14px;
+  }
+}
+
+/* Hide scrollbar on the actual scrolling container for this page */
+.admin-inner {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.admin-inner::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}

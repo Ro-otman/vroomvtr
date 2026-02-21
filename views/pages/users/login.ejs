@@ -1,0 +1,57 @@
+<section class="login-page">
+  <div class="login-card">
+    <div class="login-header">
+      <span class="eyebrow">Bienvenue</span>
+      <h1>Connexion</h1>
+      <p>Accédez à votre espace VroomVTR</p>
+    </div>
+
+    <% if (errors && errors.length) { %>
+    <div class="form-alert error">
+      <ul>
+        <% errors.forEach((err) => { %>
+        <li><%= err %></li>
+        <% }) %>
+      </ul>
+    </div>
+    <% } %>
+
+    <form action="/auth/login" method="post" class="login-form">
+      <label>
+        Email
+        <input
+          type="email"
+          name="email"
+          placeholder="ex: nom@mail.com"
+          required
+          value="<%= form && form.email ? form.email : '' %>"
+        />
+      </label>
+      <label>
+        Mot de passe
+        <input
+          type="password"
+          name="password"
+          placeholder="Entrez votre mot de passe"
+          required
+        />
+      </label>
+      <div class="login-actions">
+        <a href="#" class="forgot">Mot de passe oublié ?</a>
+      </div>
+      <button type="submit" class="btn-primary">Se connecter</button>
+    </form>
+
+    <div class="login-divider"><span>ou</span></div>
+
+    <div class="login-alt">
+      <button class="btn-outline">
+        <i class="bx bxl-google"></i> Continuer avec Google
+      </button>
+    </div>
+
+    <p class="login-footer">
+      Pas encore de compte ? <a href="/signup">Créer un compte</a>
+    </p>
+  </div>
+</section>

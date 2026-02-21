@@ -1,0 +1,367 @@
+<section class="details-page">
+  <% if (!car) { %>
+    <div class="info-card">
+      <h1>Véhicule introuvable</h1>
+      <p>Le véhicule demandé n'existe pas ou à été supprimé.</p>
+    </div>
+  <% } else { %>
+  <div class="details-main">
+    <div class="photo-card">
+      <div class="photo-grid" aria-label="Galerie photos">
+        <% if (images && images.length) { %>
+          <% images.forEach((img, idx) => { %>
+            <button
+              class="photo-item <%= idx > 3 ? 'hidden' : '' %> <%= idx === 3 && images.length > 4 ? 'more' : '' %>"
+              data-full="<%= img.url %>"
+              aria-label="Voir photo <%= idx + 1 %>"
+            >
+              <img src="<%= img.url %>" alt="<%= car.brand %> <%= car.model %> - Photo <%= idx + 1 %>" />
+              <% if (idx === 3 && images.length > 4) { %>
+                <span>+<%= images.length - 4 %></span>
+              <% } %>
+            </button>
+          <% }) %>
+        <% } else { %>
+          <button class="photo-item" data-full="/images/v1.jpg" aria-label="Voir photo">
+            <img src="/images/v1.jpg" alt="Photo véhicule" />
+          </button>
+        <% } %>
+      </div>
+      <div class="photo-actions">
+        <button class="btn-ghost"><i class="bx bx-share"></i></button>
+        <button
+          class="btn-ghost fav <%= isFavorite ? 'is-active' : '' %>"
+          type="button"
+          aria-label="Ajouter aux favoris"
+          data-car-id="<%= car.id %>"
+        >
+          <i class="bx bx-heart"></i>
+        </button>
+      </div>
+    </div>
+
+    <div class="info-card">
+      <h1><%= car.brand %> <%= car.model %> <%= car.year ? car.year : '' %></h1>
+      <p class="price"><%= Number(car.price).toLocaleString("fr-FR") %> €</p>
+      <div class="meta-grid">
+        <div>
+          <span>Année</span>
+          <strong><%= car.year || '-' %></strong>
+        </div>
+        <div>
+          <span>Kilométrage</span>
+          <strong><%= car.mileage ? Number(car.mileage).toLocaleString("fr-FR") + ' km' : '-' %></strong>
+        </div>
+        <div>
+          <span>Énergie</span>
+          <strong><%= car.fuel_type || '-' %></strong>
+        </div>
+        <div>
+          <span>Boîte</span>
+          <strong><%= car.transmission || '-' %></strong>
+        </div>
+      </div>
+      <p class="desc"><%= car.description || 'Description non disponible.' %></p>
+    </div>
+    <section class="details-extras">
+      <div class="secure-block">
+        <h2>Paiement sécurisé</h2>
+        <p>
+          Achetez ce véhicule en toute confiance grace au Paiement sécurisé.
+          Beneficiez de :
+        </p>
+        <ul>
+          <li>
+            <i class="bx bx-lock-alt"></i>
+            <strong>La reservation</strong>
+            <span class="secure-desc"
+              >pour vous assurer que le véhicule ne vous passe pas sous le
+              nez.</span
+            >
+          </li>
+          <li>
+            <i class="bx bx-shield-quarter"></i>
+            <strong>Le Paiement sécurisé</strong>
+            <span class="secure-desc"
+              >pour protéger votre argent sur un compte séquestre jusqu'au jour
+              de la vente.</span
+            >
+          </li>
+        </ul>
+        <a class="learn-more" href="/faq">En savoir plus</a>
+      </div>
+
+      <div class="key-info">
+        <h2>Les informations clés</h2>
+        <div class="key-grid">
+          <div>
+            <span><i class="bx bx-purchase-tag-alt"></i> Marque</span>
+            <strong><%= car.brand %></strong>
+          </div>
+          <div>
+            <span><i class="bx bx-car"></i> Modele</span>
+            <strong><%= car.model %></strong>
+          </div>
+          <div>
+            <span><i class="bx bx-calendar"></i> Année modèle</span>
+            <strong><%= car.year || '-' %></strong>
+          </div>
+          <div>
+            <span><i class="bx bx-tachometer"></i> Kilométrage</span>
+            <strong><%= car.mileage ? Number(car.mileage).toLocaleString("fr-FR") + ' km' : '-' %></strong>
+          </div>
+          <div>
+            <span><i class="bx bx-gas-pump"></i> Énergie</span>
+            <strong><%= car.fuel_type || '-' %></strong>
+          </div>
+          <div>
+            <span><i class="bx bx-cog"></i> Boîte de vitesse</span>
+            <strong><%= car.transmission || '-' %></strong>
+          </div>
+          <div>
+            <span><i class="bx bx-door-open"></i> Nombre de portes</span>
+            <strong><%= car.doors || '-' %></strong>
+          </div>
+          <div>
+            <span><i class="bx bx-user"></i> Nombre de place(s)</span>
+            <strong><%= car.seats || '-' %></strong>
+          </div>
+        </div>
+        <a class="learn-more" href="/details?id=<%= car.id %>"
+          >Voir les critères supplémentaires</a
+        >
+      </div>
+
+      <div class="detail-description">
+        <h2>Description</h2>
+        <p><%= car.description || 'Description non disponible.' %></p>
+      </div>
+    </section>
+  </div>
+
+  <aside class="details-side">
+    <div class="seller-card">
+      <div class="seller-head">
+        <div class="avatar">
+          <img src="<%= car.vendor_avatar || '/images/v1.jpg' %>" alt="photo du vendeur" />
+        </div>
+        <div>
+          <h3><%= car.vendor_name %> <i class="bx bxs-badge-check verified"></i></h3>
+          <div class="rating" aria-label="Note 4,8 sur 5">
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star"></i>
+            <i class="bx bxs-star-half"></i>
+            <span>4,8</span>
+          </div>
+          <div class="seller-meta-line">
+            <span class="status">Réactif</span>
+            <p class="last">Il y à 6 heures</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary reserve-toggle" type="button">Réserver</button>
+      <button class="btn-secondary chat-toggle">Envoyer un message</button>
+      <button class="btn-outline">Voir le numéro</button>
+
+      <div class="secure">
+        <i class="bx bx-lock-alt"></i>
+        Paiement sécurisé
+      </div>
+    </div>
+  </aside>
+  <% } %>
+</section>
+
+<div class="lightbox" aria-hidden="true">
+  <button class="lightbox-close" aria-label="Fermer">
+    <i class="bx bx-x"></i>
+  </button>
+  <button class="lightbox-nav prev" aria-label="Photo précédente">
+    <i class="bx bx-chevron-left"></i>
+  </button>
+  <img class="lightbox-img" alt="Photo véhicule" />
+  <button class="lightbox-nav next" aria-label="Photo suivante">
+    <i class="bx bx-chevron-right"></i>
+  </button>
+</div>
+
+<div class="chat-modal" aria-hidden="true">
+  <div class="chat-card">
+    <div class="chat-header">
+      <div class="chat-user">
+        <div class="avatar">
+          <img src="<%= car && car.vendor_avatar ? car.vendor_avatar : '/images/v1.jpg' %>" alt="photo du vendeur" />
+        </div>
+        <div>
+          <strong><%= car ? car.vendor_name : 'Vendeur' %> <i class="bx bxs-badge-check verified"></i></strong>
+          <span>Réactif</span>
+        </div>
+      </div>
+      <button class="chat-close" aria-label="Fermer">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+    <div class="chat-body">
+      <% if (messages && messages.length) { %>
+        <% messages.forEach((m) => { %>
+          <div class="chat-msg <%= m.sender === 'user' ? 'to' : 'from' %>">
+            <%= m.content %>
+          </div>
+        <% }) %>
+      <% } else { %>
+        <div class="chat-msg from">
+          Bonjour, le véhicule est-il toujours disponible ?
+        </div>
+      <% } %>
+    </div>
+    <form class="chat-input" data-car-id="<%= car.id %>" data-vendor-id="<%= car.vendor_id %>" data-conversation-id="<%= conversationId || '' %>" data-user-name="<%= user && user.first_name ? user.first_name : 'Visiteur' %>" data-user-email="<%= user && user.email ? user.email : '' %>">
+      <input type="text" placeholder="Écrire un message..." />
+      <button type="submit"><i class="bx bx-send"></i></button>
+    </form>
+  </div>
+</div>
+
+<div class="reserve-modal" aria-hidden="true">
+  <div class="reserve-card">
+    <div class="reserve-header">
+      <h3>Finaliser la réservation</h3>
+      <button class="reserve-close" type="button" aria-label="Fermer">
+        <i class="bx bx-x"></i>
+      </button>
+    </div>
+
+    <form class="reserve-form" data-step="1" data-car-id="<%= car.id %>" data-vendor-id="<%= car.vendor_id %>" enctype="multipart/form-data" novalidate>
+      <div class="reserve-step is-active" data-step="1">
+        <label>
+          Pays
+          <select name="country" required>
+            <option value="">Choisir</option>
+            <option value="France">France</option>
+            <option value="Belgique">Belgique</option>
+            <option value="Suisse">Suisse</option>
+            <option value="Luxembourg">Luxembourg</option>
+            <option value="Canada">Canada</option>
+          </select>
+        </label>
+        <label>
+          Adresse
+          <input type="text" name="address" placeholder="Votre adresse" required />
+        </label>
+        <label>
+          Ville
+          <input type="text" name="city" placeholder="Votre ville" required />
+        </label>
+        <label>
+          Code postal
+          <input type="text" name="postal_code" placeholder="Ex: 75001" required />
+        </label>
+      </div>
+
+      <div class="reserve-step" data-step="2">
+        <p class="payment-title">Choix du moyen de paiement</p>
+        <div class="payment-flow-note" role="note" aria-live="polite">
+          <p>
+            Le paiement est envoyé vers le compte sécurisé VroomVTR
+            (séquestre), pas directement au vendeur.
+          </p>
+          <p>
+            Après la transaction, vous gardez le contrôle : vous pourrez
+            confirmer la commande ou demander un remboursement.
+          </p>
+        </div>
+        <label class="pay-choice">
+          <input type="radio" name="payment_method" value="bank" required />
+          Compte bancaire
+        </label>
+        <label class="pay-choice">
+          <input type="radio" name="payment_method" value="paypal" required />
+          PayPal
+        </label>
+
+        <div class="payment-fields payment-bank">
+          <div class="bank-info-box">
+            <p class="bank-info-title">Coordonnées bancaires</p>
+            <p class="bank-info-row">
+              <span class="bank-info-label">IBAN</span>
+              <strong>FR76 2823 3000 0135 3932 1480 103</strong>
+              <button
+                type="button"
+                class="copy-bank-btn"
+                data-copy-label="IBAN"
+                data-copy-value="FR76 2823 3000 0135 3932 1480 103"
+                aria-label="Copier l'IBAN"
+              >
+                Copier
+              </button>
+            </p>
+            <p class="bank-info-row">
+              <span class="bank-info-label">Titulaire (comptabilité VroomVTR)</span>
+              <strong>Clara Dinard</strong>
+              <button
+                type="button"
+                class="copy-bank-btn"
+                data-copy-label="Titulaire"
+                data-copy-value="Clara Dinard"
+                aria-label="Copier le nom du titulaire"
+              >
+                Copier
+              </button>
+            </p>
+          </div>
+        </div>
+
+        <div class="payment-fields payment-paypal">
+          <div class="bank-info-box">
+            <p class="bank-info-title">Coordonnées PayPal</p>
+            <p class="bank-info-row">
+              Email :
+              <strong>dinardclara971@gmail.com</strong>
+              <button
+                type="button"
+                class="copy-bank-btn"
+                data-copy-label="Email PayPal"
+                data-copy-value="dinardclara971@gmail.com"
+                aria-label="Copier l'email PayPal"
+              >
+                Copier
+              </button>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="reserve-step" data-step="3">
+        <p class="payment-title">Validation de la preuve</p>
+        <p class="proof-hint" data-proof-hint>
+          Ajoutez la capture de votre preuve de paiement pour continuer.
+        </p>
+        <label>
+          Photo de preuve de paiement
+          <input type="file" name="payment_proof" accept="image/*" required />
+        </label>
+      </div>
+
+      <div class="reserve-actions">
+        <button class="btn-outline reserve-prev" type="button" hidden>Retour</button>
+        <button class="btn-primary reserve-next" type="button">Suivant</button>
+        <button class="btn-primary reserve-submit" type="submit" hidden>Confirmer</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<div class="reserve-notice" aria-live="polite" aria-atomic="true" role="status" hidden>
+  <div class="reserve-notice__content">
+    <i class="bx bx-check-circle reserve-notice__icon" aria-hidden="true"></i>
+    <p class="reserve-notice__text"></p>
+    <button type="button" class="reserve-notice__close" aria-label="Fermer">
+      <i class="bx bx-x"></i>
+    </button>
+  </div>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/details.js"></script>

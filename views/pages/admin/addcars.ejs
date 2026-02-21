@@ -1,0 +1,103 @@
+<section class="addcars-page">
+  <div class="addcars-card">
+    <% const carSafe = (typeof car !== "undefined" && car) ? car : {}; %>
+    <% const isEditSafe = typeof isEdit !== "undefined" && isEdit; %>
+    <% const formActionSafe = (typeof formAction !== "undefined" && formAction) ? formAction : "/admin/cars"; %>
+
+    <div class="addcars-header">
+      <span class="eyebrow">VroomVTR</span>
+      <h1><%= isEditSafe ? "Modifier la voiture" : "Ajouter une voiture" %></h1>
+      <p><%= isEditSafe ? "Mettez à jour les informations du véhicule." : "Ajoutez un nouveau véhicule à la marketplace." %></p>
+    </div>
+    <% if (errors && errors.length) { %>
+    <div class="form-alert error">
+      <ul>
+        <% errors.forEach((err) => { %>
+        <li><%= err %></li>
+        <% }) %>
+      </ul>
+    </div>
+    <% } %>
+
+    <form action="<%= formActionSafe %>" method="post" class="addcars-form" enctype="multipart/form-data">
+      <div class="grid">
+        <label>
+          Marque
+          <input type="text" name="brand" placeholder="Ex: Toyota" value="<%= carSafe.brand || '' %>" required />
+        </label>
+        <label>
+          Modele
+          <input type="text" name="model" placeholder="Ex: Corolla" value="<%= carSafe.model || '' %>" required />
+        </label>
+        <label>
+          Année
+          <input type="number" name="year" placeholder="Ex: 2022" min="1900" max="2100" value="<%= carSafe.year || '' %>" />
+        </label>
+        <label>
+          Prix (EUR)
+          <input type="number" name="price" placeholder="Ex: 30000" min="0" step="0.01" value="<%= carSafe.price || '' %>" required />
+        </label>
+        <label>
+          Kilométrage
+          <input type="number" name="mileage" placeholder="Ex: 45000" min="0" value="<%= carSafe.mileage || '' %>" />
+        </label>
+        <label>
+          Énergie
+          <select name="fuel_type">
+            <option value="">Choisir</option>
+            <option <%= carSafe.fuel_type === 'Essence' ? 'selected' : '' %>>Essence</option>
+            <option <%= carSafe.fuel_type === 'Diesel' ? 'selected' : '' %>>Diesel</option>
+            <option <%= carSafe.fuel_type === 'Hybride' ? 'selected' : '' %>>Hybride</option>
+            <option <%= carSafe.fuel_type === 'Electrique' || carSafe.fuel_type === '�lectrique' || carSafe.fuel_type === 'Électrique' ? 'selected' : '' %>>Electrique</option>
+          </select>
+        </label>
+        <label>
+          Boîte
+          <select name="transmission">
+            <option value="">Choisir</option>
+            <option <%= carSafe.transmission === 'Manuelle' ? 'selected' : '' %>>Manuelle</option>
+            <option <%= carSafe.transmission === 'Automatique' ? 'selected' : '' %>>Automatique</option>
+          </select>
+        </label>
+        <label>
+          Nombre de places
+          <input type="number" name="seats" placeholder="Ex: 5" min="1" max="99" value="<%= carSafe.seats || '' %>" />
+        </label>
+        <label>
+          Vendeur
+          <select name="vendor_id" required>
+            <option value="">Choisir un vendeur</option>
+            <% if (vendors && vendors.length) { %>
+              <% vendors.forEach((v) => { %>
+                <option value="<%= v.id %>" <%= String(carSafe.vendor_id || '') === String(v.id) ? 'selected' : '' %>><%= v.display_name %></option>
+              <% }) %>
+            <% } %>
+          </select>
+        </label>
+        <label>
+          Categorie
+          <select name="category_id" required>
+            <option value="">Choisir une categorie</option>
+            <% if (categories && categories.length) { %>
+              <% categories.forEach((c) => { %>
+                <option value="<%= c.id %>" <%= String(carSafe.category_id || '') === String(c.id) ? 'selected' : '' %>><%= c.name %></option>
+              <% }) %>
+            <% } %>
+          </select>
+        </label>
+      </div>
+
+      <label>
+        Description
+        <textarea name="description" rows="4" placeholder="Decrivez le véhicule..."><%= carSafe.description || '' %></textarea>
+      </label>
+
+      <label>
+        Photos (max 10)
+        <input type="file" name="images" accept="image/*" multiple />
+      </label>
+
+      <button type="submit" class="btn-primary"><%= isEditSafe ? "Mettre à jour" : "Ajouter la voiture" %></button>
+    </form>
+  </div>
+</section>

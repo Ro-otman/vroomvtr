@@ -1,0 +1,79 @@
+<section class="admin-page">
+  <div class="admin-card admin-messages">
+    <div class="admin-messages-list">
+      <div class="admin-messages-header">
+        <h1>Messages</h1>
+        <p>Utilisateurs ayant envoyé un message</p>
+      </div>
+      <ul class="user-list">
+        <% if (conversations && conversations.length) { %>
+          <% conversations.forEach((c) => { %>
+            <li class="user-item <%= c.id === activeConversationId ? 'is-active' : '' %>" data-conversation-id="<%= c.id %>" data-user-id="<%= c.user_id %>" data-unread="<%= c.unread_count || 0 %>">
+              <div class="user-avatar">
+                <%= ((c.first_name || 'U')[0] + (c.last_name || 'S')[0]).toUpperCase() %>
+              </div>
+              <div>
+                <strong><%= (c.first_name || '') + ' ' + (c.last_name || '') %></strong>
+                <div class="last-row">
+                  <span class="last-message"><%= c.last_message || '...' %></span>
+                  <span class="unread-badge" <%= c.unread_count ? '' : 'hidden' %>><%= c.unread_count || 0 %></span>
+                </div>
+              </div>
+            </li>
+          <% }) %>
+        <% } else { %>
+          <li class="user-item">
+            <div class="user-avatar">--</div>
+            <div>
+              <strong>Aucune conversation</strong>
+              <span>Les messages apparaitront ici.</span>
+            </div>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+
+    <div class="admin-messages-chat">
+      <div class="chat-header">
+        <button class="chat-back" type="button" aria-label="Retour">
+          <i class="bx bx-chevron-left"></i>
+        </button>
+        <div class="chat-user">
+          <div class="user-avatar">
+            <%= conversations && conversations[0] ? ((conversations[0].first_name || 'U')[0] + (conversations[0].last_name || 'S')[0]).toUpperCase() : '--' %>
+          </div>
+          <div>
+            <strong>
+              <%= conversations && conversations[0] ? ((conversations[0].first_name || '') + ' ' + (conversations[0].last_name || '')) : 'Aucun utilisateur' %>
+            </strong>
+            <span><%= conversations && conversations[0] ? (conversations[0].email || '') : '' %></span>
+          </div>
+        </div>
+      </div>
+      <div
+        class="chat-body"
+        data-conversation-id="<%= activeConversationId %>"
+        data-user-id="<%= conversations && conversations[0] ? conversations[0].user_id : '' %>"
+      >
+        <% if (messages && messages.length) { %>
+          <% messages.forEach((m) => { %>
+            <div class="chat-msg <%= m.sender === 'user' ? 'from' : 'to' %>"><%= m.content %></div>
+          <% }) %>
+        <% } else { %>
+          <div class="chat-msg from">Aucun message pour le moment.</div>
+        <% } %>
+      </div>
+      <form
+        class="chat-input"
+        data-conversation-id="<%= activeConversationId %>"
+        data-user-id="<%= conversations && conversations[0] ? conversations[0].user_id : '' %>"
+      >
+        <input type="text" placeholder="Écrire un message..." />
+        <button type="submit"><i class="bx bx-send"></i></button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/admin-messages.js"></script>

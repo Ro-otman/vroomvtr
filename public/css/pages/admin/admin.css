@@ -1,0 +1,573 @@
+.admin-shell {
+  min-height: 100vh;
+  min-height: 100dvh;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  background:
+    radial-gradient(
+      circle at top left,
+      rgba(128, 0, 128, 0.08),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at bottom right,
+      rgba(128, 0, 128, 0.06),
+      transparent 40%
+    );
+  overflow: hidden;
+}
+
+.admin-sidebar {
+  background: #fff;
+  border-right: 1px solid rgba(128, 0, 128, 0.15);
+  padding: 22px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+.admin-brand {
+  font-weight: 800;
+  color: purple;
+  font-size: 1.15rem;
+  letter-spacing: 0.4px;
+  text-align: center;
+}
+
+.admin-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-menu a,
+.admin-sidebar-footer a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  justify-content: flex-start;
+}
+
+.admin-logout-form {
+  margin: 28px 0 0;
+}
+
+.admin-logout-btn {
+  width: 100%;
+  border: none;
+  background: purple;
+  text-decoration: none;
+  color: #fff;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  justify-content: flex-start;
+  cursor: pointer;
+  font: inherit;
+}
+
+.admin-menu a:hover,
+.admin-sidebar-footer a:hover,
+.admin-logout-btn:hover {
+  background: #6a1b9a;
+  color: #fff;
+}
+
+.admin-sidebar-footer {
+  margin-top: auto;
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.admin-content {
+  padding: 0 20px 0;
+  position: relative;
+  height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(128, 0, 128, 0.12);
+  padding: 16px 6px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.admin-title {
+  font-weight: 700;
+  color: #2b2b2b;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.admin-topbar-actions {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-topbar-logout-form {
+  margin: 0;
+}
+
+.admin-theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(128, 0, 128, 0.24);
+  background: #fff;
+  color: #5b1b8f;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.admin-theme-toggle .bx {
+  font-size: 20px;
+}
+
+.admin-topbar-logout-btn {
+  display: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: 1px solid rgba(128, 0, 128, 0.2);
+  background: purple;
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.admin-topbar-logout-btn .bx {
+  font-size: 20px;
+}
+
+.admin-inner {
+  padding: 20px 0;
+  flex: 1;
+  overflow: auto;
+}
+
+@media (max-width: 768px) {
+  .admin-shell {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
+  }
+
+  .admin-sidebar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: auto;
+    height: 64px;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    border-right: none;
+    border-top: 1px solid rgba(128, 0, 128, 0.15);
+    padding: 8px 10px;
+    z-index: 20;
+  }
+
+  .admin-brand,
+  .admin-sidebar-footer {
+    display: none;
+  }
+
+  .admin-menu {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0;
+    width: 100%;
+    justify-items: center;
+    align-items: center;
+  }
+
+  .admin-menu a {
+    font-size: 0;
+    padding: 8px 10px;
+    justify-content: center;
+    align-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: grid;
+    place-items: center;
+    line-height: 1;
+  }
+
+  .admin-menu a i {
+    font-size: 20px;
+    margin: 0 auto;
+    line-height: 1;
+    width: 20px;
+    height: 20px;
+    display: grid;
+    place-items: center;
+  }
+
+  .admin-content {
+    padding-bottom: 80px;
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  .admin-topbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 12px 10px;
+  }
+
+  .admin-topbar-logout-btn {
+    display: inline-flex;
+  }
+
+  .admin-inner {
+    padding: 72px 0 20px;
+    min-height: calc(100dvh - 72px - 80px);
+  }
+
+  /* Keep scrolling behavior but hide scrollbars on mobile admin pages */
+  .admin-inner,
+  .admin-sidebar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .admin-inner::-webkit-scrollbar,
+  .admin-sidebar::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+}
+
+/* ===== Dark Theme (Admin) ===== */
+body.admin-theme-dark {
+  background: #0b0f19;
+  color: #e8ecf8;
+}
+
+body.admin-theme-dark .admin-shell {
+  background:
+    radial-gradient(circle at top left, rgba(126, 34, 206, 0.16), transparent 38%),
+    radial-gradient(circle at bottom right, rgba(168, 85, 247, 0.14), transparent 42%),
+    #0b0f19;
+}
+
+body.admin-theme-dark .admin-sidebar {
+  background: #121826;
+  border-right-color: rgba(168, 85, 247, 0.26);
+}
+
+body.admin-theme-dark .admin-brand {
+  color: #d9b8ff;
+}
+
+body.admin-theme-dark .admin-menu a,
+body.admin-theme-dark .admin-sidebar-footer a {
+  color: #d9e1f3;
+}
+
+body.admin-theme-dark .admin-menu a:hover,
+body.admin-theme-dark .admin-sidebar-footer a:hover {
+  background: rgba(147, 51, 234, 0.26);
+  color: #fff;
+}
+
+body.admin-theme-dark .admin-logout-btn {
+  background: linear-gradient(135deg, #7e22ce, #a855f7);
+}
+
+body.admin-theme-dark .admin-logout-btn:hover {
+  background: linear-gradient(135deg, #6b21a8, #9333ea);
+}
+
+body.admin-theme-dark .admin-content {
+  color: #e8ecf8;
+}
+
+body.admin-theme-dark .admin-topbar {
+  background: rgba(15, 21, 35, 0.92);
+  border-bottom-color: rgba(168, 85, 247, 0.24);
+}
+
+body.admin-theme-dark .admin-title {
+  color: #f2f5ff;
+}
+
+body.admin-theme-dark .admin-topbar-logout-btn {
+  border-color: rgba(168, 85, 247, 0.38);
+  background: linear-gradient(135deg, #7e22ce, #a855f7);
+}
+
+body.admin-theme-dark .admin-theme-toggle {
+  border-color: rgba(168, 85, 247, 0.38);
+  background: linear-gradient(135deg, #7e22ce, #a855f7);
+  color: #fff;
+}
+
+body.admin-theme-dark .admin-inner {
+  color: #e8ecf8;
+}
+
+body.admin-theme-dark .admin-inner::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.42);
+}
+
+body.admin-theme-dark .admin-inner::-webkit-scrollbar-track {
+  background: rgba(14, 20, 34, 0.8);
+}
+
+body.admin-theme-dark .panel,
+body.admin-theme-dark .kpi-card,
+body.admin-theme-dark .verification-item,
+body.admin-theme-dark .code-modal-card,
+body.admin-theme-dark .quick-btn,
+body.admin-theme-dark .system-list li,
+body.admin-theme-dark .products-placeholder,
+body.admin-theme-dark .product-card,
+body.admin-theme-dark .orders-table-wrap,
+body.admin-theme-dark .orders-empty,
+body.admin-theme-dark .order-card,
+body.admin-theme-dark .users-table-wrap,
+body.admin-theme-dark .users-empty,
+body.admin-theme-dark .u-card,
+body.admin-theme-dark .addcars-card,
+body.admin-theme-dark .admin-card,
+body.admin-theme-dark .stat-pill,
+body.admin-theme-dark .u-pill {
+  background: #141b2b;
+  border-color: rgba(168, 85, 247, 0.22);
+  color: #e8ecf8;
+}
+
+body.admin-theme-dark .orders-table-meta,
+body.admin-theme-dark .orders-table thead th,
+body.admin-theme-dark .users-table thead th {
+  background: #101726;
+  color: #b5bfd8;
+  border-color: rgba(168, 85, 247, 0.2);
+}
+
+body.admin-theme-dark .orders-table tbody td,
+body.admin-theme-dark .users-table tbody td {
+  border-color: rgba(168, 85, 247, 0.14);
+}
+
+body.admin-theme-dark .cell-primary,
+body.admin-theme-dark .u-main,
+body.admin-theme-dark .product-body h2,
+body.admin-theme-dark .order-id,
+body.admin-theme-dark .u-card-top h3,
+body.admin-theme-dark .panel-head h2,
+body.admin-theme-dark .timeline p,
+body.admin-theme-dark .system-list li strong,
+body.admin-theme-dark .order-grid strong,
+body.admin-theme-dark .u-grid strong {
+  color: #f2f5ff;
+}
+
+body.admin-theme-dark .kpi-value,
+body.admin-theme-dark .stat-pill strong,
+body.admin-theme-dark .u-pill strong,
+body.admin-theme-dark .verification-order,
+body.admin-theme-dark .code-step-value,
+body.admin-theme-dark .code-pill strong,
+body.admin-theme-dark .amount {
+  color: #ffffff;
+}
+
+body.admin-theme-dark .code-step-value.is-pending {
+  color: #d2dcf7;
+}
+
+body.admin-theme-dark .cell-sub,
+body.admin-theme-dark .u-sub,
+body.admin-theme-dark .order-date,
+body.admin-theme-dark .order-grid p,
+body.admin-theme-dark .order-grid .k,
+body.admin-theme-dark .u-grid span,
+body.admin-theme-dark .users-head p,
+body.admin-theme-dark .users-empty p,
+body.admin-theme-dark .orders-empty p,
+body.admin-theme-dark .products-placeholder p,
+body.admin-theme-dark .admin-messages-header p,
+body.admin-theme-dark .verification-user,
+body.admin-theme-dark .verification-car,
+body.admin-theme-dark .timeline small,
+body.admin-theme-dark .kpi-top,
+body.admin-theme-dark .kpi-meta,
+body.admin-theme-dark .product-meta,
+body.admin-theme-dark .code-modal-subtitle {
+  color: #a9b4cf;
+}
+
+body.admin-theme-dark .stat-pill span,
+body.admin-theme-dark .u-pill span,
+body.admin-theme-dark .code-step-label {
+  color: #c1cbe4;
+}
+
+body.admin-theme-dark .panel-head a,
+body.admin-theme-dark .btn-add-car {
+  background: linear-gradient(135deg, #7e22ce, #a855f7);
+  border-color: rgba(168, 85, 247, 0.3);
+  color: #fff;
+}
+
+body.admin-theme-dark .panel-head a:hover,
+body.admin-theme-dark .btn-add-car:hover {
+  background: linear-gradient(135deg, #6b21a8, #9333ea);
+}
+
+body.admin-theme-dark .action-btn.edit {
+  background: rgba(168, 85, 247, 0.18);
+  color: #d9b8ff;
+}
+
+body.admin-theme-dark .action-btn.delete {
+  background: rgba(244, 63, 94, 0.16);
+  color: #ffc1cb;
+}
+
+body.admin-theme-dark .product-media {
+  background: #0f1522;
+}
+
+body.admin-theme-dark .chat-header {
+  border-bottom-color: rgba(168, 85, 247, 0.2);
+}
+
+body.admin-theme-dark .chat-body {
+  background: #0f1625;
+}
+
+body.admin-theme-dark .chat-msg.from,
+body.admin-theme-dark .typing-indicator {
+  background: #1a2336;
+  color: #d8e1f6;
+}
+
+body.admin-theme-dark .chat-msg.to {
+  background: rgba(168, 85, 247, 0.24);
+  color: #f5eeff;
+}
+
+body.admin-theme-dark .unread-badge {
+  background: #a855f7;
+  color: #fff !important;
+}
+
+body.admin-theme-dark .chat-input {
+  border-top: 1px solid rgba(168, 85, 247, 0.2);
+  background: #121a2a;
+}
+
+body.admin-theme-dark .chat-input input,
+body.admin-theme-dark .addcars-form input,
+body.admin-theme-dark .addcars-form select,
+body.admin-theme-dark .addcars-form textarea {
+  background: #0f1524;
+  color: #eef2ff;
+  border-color: rgba(168, 85, 247, 0.26);
+}
+
+body.admin-theme-dark .addcars-form label {
+  color: #d9e1f3;
+}
+
+body.admin-theme-dark .form-alert.error {
+  background: rgba(127, 29, 29, 0.32);
+  border-color: rgba(248, 113, 113, 0.42);
+  color: #ffd6d6;
+}
+
+body.admin-theme-dark .orders-empty i,
+body.admin-theme-dark .users-empty i,
+body.admin-theme-dark .products-placeholder .bx,
+body.admin-theme-dark .quick-btn i,
+body.admin-theme-dark .kpi-top i,
+body.admin-theme-dark .chat-back {
+  color: #c084fc;
+}
+
+body.admin-theme-dark .status.pending,
+body.admin-theme-dark .status.payment.pending {
+  background: rgba(251, 146, 60, 0.2);
+  color: #ffd8a8;
+}
+
+body.admin-theme-dark .status.confirmed,
+body.admin-theme-dark .status.payment.paid,
+body.admin-theme-dark .status.ok {
+  background: rgba(52, 211, 153, 0.2);
+  color: #b7f7dd;
+}
+
+body.admin-theme-dark .status.cancelled,
+body.admin-theme-dark .status.payment.failed,
+body.admin-theme-dark .status.off {
+  background: rgba(251, 113, 133, 0.2);
+  color: #ffc7d1;
+}
+
+body.admin-theme-dark .status.completed,
+body.admin-theme-dark .status.payment.refunded {
+  background: rgba(129, 140, 248, 0.2);
+  color: #d7ddff;
+}
+
+@media (max-width: 768px) {
+  body.admin-theme-dark .admin-sidebar {
+    background: #121826;
+    border-top-color: rgba(168, 85, 247, 0.24);
+  }
+
+  body.admin-theme-dark .chat-header {
+    background: #121a2a;
+  }
+
+  body.admin-theme-dark .chat-input {
+    background: #121a2a;
+  }
+
+  body.admin-theme-dark .admin-card {
+    border-color: rgba(168, 85, 247, 0.22);
+  }
+}

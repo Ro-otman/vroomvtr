@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title || 'Connexion Admin' %></title>
+    <% if (meta && meta.description) { %>
+      <meta name="description" content="<%= meta.description %>" />
+    <% } %>
+    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/pages/admin/login.css" />
+  </head>
+  <body class="admin-login-page">
+    <main class="admin-login-wrap">
+      <section class="admin-login-card">
+        <div class="admin-login-badge">Root Admin</div>
+        <h1>Connexion Admin</h1>
+        <p>Entrez votre cle de securite.</p>
+
+        <% if (adminConfigMissing) { %>
+          <div class="form-alert error" role="alert" aria-live="polite">
+            <ul>
+              <li>
+                Configuration admin manquante: ajoutéz
+                <code>ADMIN_LOGIN_KEY</code> dans <code>.env</code>, puis
+                redemarrez le serveur.
+              </li>
+            </ul>
+          </div>
+        <% } %>
+
+        <% if (errors && errors.length) { %>
+          <div class="form-alert error" role="alert" aria-live="polite">
+            <ul>
+              <% errors.forEach((err) => { %>
+                <li><%= err %></li>
+              <% }) %>
+            </ul>
+          </div>
+        <% } %>
+
+        <form action="/admin/login" method="post" class="admin-login-form">
+          <label for="admin-key">Cle d'administration</label>
+          <input
+            id="admin-key"
+            type="password"
+            name="admin_key"
+            placeholder="Entrez la cle admin"
+            autocomplete="current-password"
+            required
+          />
+
+          <button type="submit" class="btn-primary admin-login-submit">
+            Se connecter
+          </button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>

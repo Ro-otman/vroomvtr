@@ -1,0 +1,26 @@
+<section class="checkcode-page">
+  <div class="checkcode-card">
+    <h1>Vérification</h1>
+    <p>Nous avons envoyé un code à <strong><%= email %></strong>.</p>
+
+    <% const errs = (typeof errors !== "undefined" && errors) ? errors : []; %>
+    <% if (errs.length) { %>
+    <div class="form-alert error">
+      <ul>
+        <% errs.forEach((err) => { %>
+        <li><%= err %></li>
+        <% }) %>
+      </ul>
+    </div>
+    <% } %>
+
+    <form action="/auth/verify-code" method="post" class="checkcode-form">
+      <input type="hidden" name="email" value="<%= email %>" />
+      <label>
+        Code à 6 chiffres
+        <input type="text" name="code" maxlength="6" placeholder="123456" required />
+      </label>
+      <button type="submit" class="btn-primary">Vérifier</button>
+    </form>
+  </div>
+</section>

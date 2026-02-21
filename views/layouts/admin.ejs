@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/images/favicon-bx-car-white.svg?v=4" />
+    <link rel="shortcut icon" href="/images/favicon-bx-car-white.svg?v=4" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"
+    />
+
+    <title><%= title || "Admin" %></title>
+
+    <% const stylesSafe = (typeof styles !== "undefined" && styles) ? styles : []; %>
+    <% if (Array.isArray(stylesSafe)) { %>
+      <% stylesSafe.forEach((href) => { %>
+      <link rel="stylesheet" href="<%= href %>" />
+      <% }) %>
+    <% } %>
+  </head>
+  <body>
+    <div id="site-loader" class="site-loader" aria-live="polite" aria-label="Chargement">
+      <div class="loader-core">
+        <div class="loader-ring"></div>
+        <i class="bx bxs-car-garage loader-car" aria-hidden="true"></i>
+      </div>
+      <p class="loader-text">Chargement en cours...</p>
+    </div>
+
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <div class="admin-brand">VroomVTR Admin</div>
+        <nav class="admin-menu">
+          <a href="/admin/dashboard"><i class="bx bx-grid-alt"></i>Dashboard</a>
+          <a href="/produit"><i class="bx bx-car"></i>Produits</a>
+          <a href="/admin/orders"><i class="bx bx-receipt"></i>Commandes</a>
+          <a href="/admin/messages"><i class="bx bx-message-rounded"></i>Messages</a>
+          <a href="/admin/users"><i class="bx bx-user"></i>Users</a>
+        </nav>
+        <div class="admin-sidebar-footer">
+          <a href="/addcars"><i class="bx bx-plus-circle"></i>Add cars</a>
+          <a href="/"><i class="bx bx-home"></i>Visiter le site</a>
+          <form action="/admin/logout" method="post" class="admin-logout-form">
+            <button type="submit" class="admin-logout-btn">
+              <i class="bx bx-log-out"></i>Deconnexion
+            </button>
+          </form>
+        </div>
+      </aside>
+
+      <main class="admin-content">
+        <div class="admin-topbar">
+          <div class="admin-title">Root Admin</div>
+          <div class="admin-topbar-actions">
+            <button
+              type="button"
+              class="admin-theme-toggle"
+              data-admin-theme-toggle
+              aria-label="Activer ou desactiver le theme sombre"
+              aria-pressed="true"
+            >
+              <i class="bx bx-sun"></i>
+            </button>
+            <form action="/admin/logout" method="post" class="admin-topbar-logout-form">
+              <button type="submit" class="admin-topbar-logout-btn" aria-label="Deconnexion admin">
+                <i class="bx bx-log-out"></i>
+              </button>
+            </form>
+          </div>
+        </div>
+        <div class="admin-inner">
+          <%- body %>
+        </div>
+      </main>
+    </div>
+
+    <script src="/js/admin-theme.js"></script>
+    <script src="/js/loader.js"></script>
+    <script src="/js/script.js"></script>
+  </body>
+</html>

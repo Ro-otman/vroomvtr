@@ -1,0 +1,178 @@
+<section class="marketplace">
+  <aside class="filters">
+    <h2>Filtres</h2>
+    <form class="filters-form" method="get" action="/">
+      <input type="hidden" name="q" value="<%= filters && filters.q ? filters.q : '' %>" />
+      <label>
+        Categories
+        <select name="category_id">
+          <option value="">Toutes</option>
+          <% if (categories && categories.length) { %>
+            <% categories.forEach((c) => { %>
+              <option value="<%= c.id %>" <%= filters && filters.category_id === c.id ? "selected" : "" %>>
+                <%= c.name %>
+              </option>
+            <% }) %>
+          <% } %>
+        </select>
+      </label>
+
+      <label>
+        Marque
+        <select name="brand">
+          <option value="">Toutes</option>
+          <% if (brands && brands.length) { %>
+            <% brands.forEach((b) => { %>
+              <option value="<%= b %>" <%= filters && filters.brand === b ? "selected" : "" %>>
+                <%= b %>
+              </option>
+            <% }) %>
+          <% } %>
+        </select>
+      </label>
+
+      <label>
+        Type de vendeur
+        <select name="seller_type">
+          <option value="">Tous</option>
+          <option value="particulier" <%= filters && filters.seller_type === "particulier" ? "selected" : "" %>>Particuliers</option>
+          <option value="entreprise" <%= filters && filters.seller_type === "entreprise" ? "selected" : "" %>>Entreprises</option>
+        </select>
+      </label>
+
+      <label>
+        Modele
+        <input type="text" name="model" placeholder="Ex: Corolla" value="<%= filters && filters.model ? filters.model : "" %>" />
+      </label>
+
+      <label>
+        Énergie
+        <select name="fuel_type">
+          <option value="">Toutes</option>
+          <option value="Essence" <%= filters && filters.fuel_type === "Essence" ? "selected" : "" %>>Essence</option>
+          <option value="Diesel" <%= filters && filters.fuel_type === "Diesel" ? "selected" : "" %>>Diesel</option>
+          <option value="Hybride" <%= filters && filters.fuel_type === "Hybride" ? "selected" : "" %>>Hybride</option>
+          <option value="Electrique" <%= filters && filters.fuel_type === "Electrique" ? "selected" : "" %>>Electrique</option>
+        </select>
+      </label>
+
+      <div class="price-row">
+        <label>
+          Prix min
+          <input type="number" name="price_min" placeholder="0" value="<%= filters && filters.price_min ? filters.price_min : "" %>" />
+        </label>
+        <label>
+          Prix max
+          <input type="number" name="price_max" placeholder="100000" value="<%= filters && filters.price_max ? filters.price_max : "" %>" />
+        </label>
+      </div>
+
+      <label>
+        Trier par
+        <select name="sort">
+          <option value="recent" <%= sort === "recent" ? "selected" : "" %>>Plus recents</option>
+          <option value="price_asc" <%= sort === "price_asc" ? "selected" : "" %>>Prix croissant</option>
+          <option value="price_desc" <%= sort === "price_desc" ? "selected" : "" %>>Prix decroissant</option>
+          <option value="year_desc" <%= sort === "year_desc" ? "selected" : "" %>>Année recente</option>
+          <option value="year_asc" <%= sort === "year_asc" ? "selected" : "" %>>Année ancienne</option>
+        </select>
+      </label>
+
+      <button class="btn-primary" type="submit">Appliquer</button>
+      <a class="btn-outline" href="/">Reinitialiser</a>
+    </form>
+  </aside>
+
+  <div class="listing">
+    <div class="listing-header">
+      <div>
+        <h1>Marketplace</h1>
+        <p>Trouvez le véhicule ideal pour vos besoins.</p>
+      </div>
+      <button class="filters-toggle" type="button">
+        <i class="bx bx-filter"></i> Filtre
+      </button>
+    </div>
+
+    <div class="cards">
+      <% if (cars && cars.length) { %>
+        <% cars.forEach((car) => { %>
+          <a
+            class="card-link"
+            href="/details?id=<%= car.id %>"
+            aria-label="Voir <%= car.brand %> <%= car.model %>"
+          >
+            <article class="card">
+              <div class="card-media">
+                <img src="<%= car.main_image || '/images/v1.jpg' %>" alt="<%= car.brand %> <%= car.model %>" />
+                <span class="badge">A la une</span>
+                <span
+                  class="fav <%= favIds && favIds.includes(car.id) ? 'is-active' : '' %>"
+                  role="button"
+                  tabindex="0"
+                  aria-label="Ajouter aux favoris"
+                  data-car-id="<%= car.id %>"
+                ><i class="bx bx-heart"></i></span>
+              </div>
+              <div class="card-body">
+                <h3><%= car.brand %> <%= car.model %> <%= car.year ? car.year : '' %></h3>
+                <div class="price-row-card">
+                  <span class="price"><%= Number(car.price).toLocaleString("fr-FR") %> €</span>
+                  <% if (car.vendor_pro) { %>
+                    <span class="pro">Pro</span>
+                  <% } %>
+                </div>
+                <div class="specs">
+                  <div><span>Année</span><strong><%= car.year || '-' %></strong></div>
+                  <div><span>Kilométrage</span><strong><%= car.mileage ? Number(car.mileage).toLocaleString("fr-FR") + ' km' : '-' %></strong></div>
+                  <div><span>Énergie</span><strong><%= car.fuel_type || '-' %></strong></div>
+                  <div><span>Boîte</span><strong><%= car.transmission || '-' %></strong></div>
+                </div>
+                <div class="seller-row">
+                  <div class="seller-avatar">
+                    <img src="<%= car.vendor_avatar || '/images/v1.jpg' %>" alt="Vendeur <%= car.vendor_name %>" />
+                  </div>
+                  <div>
+                    <p class="seller">
+                      <%= car.vendor_name %> <i class="bx bxs-badge-check verified"></i>
+                    </p>
+                    <p class="seller-sub">Vendeur vérifié</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </a>
+        <% }) %>
+      <% } else { %>
+        <div class="empty-state">
+          <h3>Aucun véhicule trouve</h3>
+          <p>Essayez de modifier vos filtres ou de reinitialiser la recherche.</p>
+        </div>
+      <% } %>
+    </div>
+
+    <nav class="pagination" aria-label="Pagination">
+      <% const prevDisabled = page <= 1; %>
+      <% const nextDisabled = page >= totalPages; %>
+      <a
+        class="page-btn <%= prevDisabled ? 'disabled' : '' %>"
+        href="?page=<%= page - 1 %>&q=<%= encodeURIComponent(filters.q || '') %>&category_id=<%= filters.category_id || '' %>&brand=<%= filters.brand || '' %>&seller_type=<%= filters.seller_type || '' %>&model=<%= filters.model || '' %>&fuel_type=<%= filters.fuel_type || '' %>&price_min=<%= filters.price_min || '' %>&price_max=<%= filters.price_max || '' %>&sort=<%= sort %>"
+        <%= prevDisabled ? 'aria-disabled="true"' : '' %>
+      >Precedent</a>
+
+      <% for (let p = 1; p <= totalPages; p++) { %>
+        <a
+          class="page-btn <%= p === page ? 'is-active' : '' %>"
+          href="?page=<%= p %>&q=<%= encodeURIComponent(filters.q || '') %>&category_id=<%= filters.category_id || '' %>&brand=<%= filters.brand || '' %>&seller_type=<%= filters.seller_type || '' %>&model=<%= filters.model || '' %>&fuel_type=<%= filters.fuel_type || '' %>&price_min=<%= filters.price_min || '' %>&price_max=<%= filters.price_max || '' %>&sort=<%= sort %>"
+        ><%= p %></a>
+      <% } %>
+
+      <a
+        class="page-btn <%= nextDisabled ? 'disabled' : '' %>"
+        href="?page=<%= page + 1 %>&q=<%= encodeURIComponent(filters.q || '') %>&category_id=<%= filters.category_id || '' %>&brand=<%= filters.brand || '' %>&seller_type=<%= filters.seller_type || '' %>&model=<%= filters.model || '' %>&fuel_type=<%= filters.fuel_type || '' %>&price_min=<%= filters.price_min || '' %>&price_max=<%= filters.price_max || '' %>&sort=<%= sort %>"
+        <%= nextDisabled ? 'aria-disabled="true"' : '' %>
+      >Suivant</a>
+    </nav>
+  </div>
+</section>
+<div class="filters-overlay"></div>
